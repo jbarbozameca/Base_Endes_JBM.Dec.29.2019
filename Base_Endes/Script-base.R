@@ -70,7 +70,6 @@ vivienda6=consulta_endes(periodo = 2018,
 # de vida del hogar entrevistado.
 
 caracteristicas_vivienda=read_sav("Modulo65/RECH23.SAV",encoding='UTF-8')
-View(caracteristicas_vivienda)
 
 
 # == RECH0 - 2018 (vivienda)=== #####
@@ -84,7 +83,6 @@ View(caracteristicas_vivienda)
 # talla y prueba de anemia, resultado final de la encuesta, etc.
 
 caracteristicas_hogar_abrir=read_sav("Modulo64/RECH0.SAV",encoding='UTF-8')
-View(caracteristicas_hogar_abrir)
 
 
 ## === RECH1 - 2018 (cuestionario de hogar) === ####
@@ -97,7 +95,6 @@ View(caracteristicas_hogar_abrir)
 # sexo, edad, estado civil, si tiene partida de nacimiento, educación, 
 # y supervivencia y residencia de los padres biológicos.
 miembros_hogar=read_sav("Modulo64/RECH1.SAV",encoding='UTF-8')
-View(miembros_hogar)
 
 ### === REC41 - 2018 informacion_parto (información prenatal, parto y postparto) === ####
 # Este archivo contiene información sobre atención pre-natal 
@@ -105,7 +102,6 @@ View(miembros_hogar)
 # cobertura antitetánica,control o chequeo médico antes y después del embarazo, 
 # peso del bebé al nacer, control postparto, lactancia materna, etc.
 REC41=read_sav("Modulo69/REC41.SAV",encoding='UTF-8')
-View(REC41)
 
 
 ## === REC42 salud_nino (salud actual del niño)== ####
@@ -117,7 +113,6 @@ View(REC41)
 # de la mujer también son mencionadas en esta sección.
 
 REC42=read_sav("638-Modulo70/REC42.SAV",encoding='UTF-8')
-View(REC42)
 
 # === REC43 inmunidad_nino (inmunización del niño) ===####
 # Este archivo contiene información sobre Inmunización y morbilidad: 
@@ -125,19 +120,16 @@ View(REC42)
 # diarrea, establecimiento de salud dónde recibió tratamiento, etc.
 
 REC43=read_sav("638-Modulo70/REC43.SAV",encoding='UTF-8')
-View(REC43)
 
 
 # === REC44 (peso, talla y anemia en niños)=== ####
 # Este archivo contiene información sobre peso/talla y anemia de los niños.
 REC44=read_sav("638-Modulo74/REC44.SAV",encoding='UTF-8')
-View(REC44)
 
 
 ## === RECH6 (antropometría y anemia en niños)=== ####
 # Este archivo contiene información sobre Antropometría/Anemia - Niños
 RECH6=read_sav("638-Modulo74/RECH6.SAV",encoding='UTF-8')
-View(RECH6)
 
 
 
@@ -153,10 +145,85 @@ union2=unir_endes(base1=union1,
 union3=unir_endes(base1=union2,
                   base2=REC44,
                   tipo_union = "individual")
-View(union3)
-union4_final=unir_endes(base1 = union3,
-                        base2 = RECH6,
-                        tipo_union = "individual")
-View(union4_final)
-str(union4_final)
-### Confirmar cambios para GitHub
+
+data_final_endes=unir_endes(base1 = union3,
+                            base2 = RECH6,
+                            tipo_union = "individual")
+View(data_final_endes)
+str(data_final_endes)
+##### ANÁLISIS DE DATOS ORIGINAL 2018 ####
+attach(data_final_endes)
+nueva_data=data.frame(M1,M1A,M1B,M2A,M2B,M2C,M2D,M2E,M2G,M2N,M3A,M3B,M3C,M3E,M3G,M4,M5,M8,M9,M13,M17,M18,M19,
+                      V453,V457,V463Z,V466,
+                      H2,H3,H4,H5,H6,H7,H8,H9,H11,H11B,H22,H31,H31B,H31C,
+                      HC61,V447A)
+
+View(nueva_data)
+library(dplyr)
+### OUTCOME: FIEBRE
+summary(nueva_data$H22)
+table(nueva_data$H22)
+
+### OUTCOME: DIARREA
+summary(nueva_data$H11)
+table(nueva_data$H11)
+
+### OUTCOME: SÍNTOMA RESPIRATORIO=TOS
+summary(nueva_data$H31)
+table(nueva_data$H31)
+
+nueva_data$M1=as.numeric(nueva_data$M1)
+nueva_data$M1A=factor(nueva_data$M1A)
+nueva_data$M1B=as.numeric(nueva_data$M1B)
+nueva_data$M2A=factor(nueva_data$M2A)
+nueva_data$M2B=factor(nueva_data$M2B)
+nueva_data$M2C=factor(nueva_data$M2C)
+nueva_data$M2D=factor(nueva_data$M2D)
+nueva_data$M2E=factor(nueva_data$M2E)
+nueva_data$M2G=factor(nueva_data$M2G)
+nueva_data$M2N=factor(nueva_data$M2N)
+nueva_data$M3A=factor(nueva_data$M3A)
+nueva_data$M3B=factor(nueva_data$M3B)
+nueva_data$M3C=factor(nueva_data$M3C)
+nueva_data$M3E=factor(nueva_data$M3E)
+nueva_data$M3G=factor(nueva_data$M3G)
+nueva_data$M4=as.numeric(nueva_data$M4)
+nueva_data$M5=as.numeric(nueva_data$M5)
+nueva_data$M8=as.numeric(nueva_data$M8)
+nueva_data$M9=as.numeric(nueva_data$M9)
+nueva_data$M13=as.numeric(nueva_data$M13)
+nueva_data$M17=factor(nueva_data$M17)
+nueva_data$M18=factor(nueva_data$M18)
+nueva_data$M19=as.numeric(nueva_data$M19)
+nueva_data$V453=as.numeric(nueva_data$V453)
+nueva_data$V457=factor(nueva_data$V457)
+nueva_data$V463Z=factor(nueva_data$V463Z)
+nueva_data$V466=factor(nueva_data$V466)
+nueva_data$H2=factor(nueva_data$H2)
+nueva_data$H3=factor(nueva_data$H3)
+nueva_data$H4=factor(nueva_data$H4)
+nueva_data$H5=factor(nueva_data$H5)
+nueva_data$H6=factor(nueva_data$H6)
+nueva_data$H7=factor(nueva_data$H7)
+nueva_data$H8=factor(nueva_data$H8)
+nueva_data$H9=factor(nueva_data$H9)
+nueva_data$H11=factor(nueva_data$H11)
+nueva_data$H11B=factor(nueva_data$H11B)
+nueva_data$H22=factor(nueva_data$H22)
+nueva_data$H31=factor(nueva_data$H31)
+nueva_data$H31B=factor(nueva_data$H31B)
+nueva_data$H31C=factor(nueva_data$H31C)
+nueva_data$HC61=factor(nueva_data$HC61)
+nueva_data$V447A=as.numeric(nueva_data$V447A)
+
+str(nueva_data)
+View(nueva_data)
+
+library(tableone)
+
+tabla_categoricos=CreateTableOne(data = nueva_data)
+tabla_categoricos
+
+library(compareGroups)
+tabla2=compareGroups(data = nueva_data, H11 ~  V447A)
+
