@@ -4,7 +4,7 @@
 # guardar: Si se desea descargar el archivo .sav o se quiere cargar como data frame directamente (usando read_sav del paquete haven)
 
 ######################## EJEMPLO PRÁCTICO ############
-library(ENDES.PE)
+devtools::install_github("horaciochacon/ENDES.PE")
 library(tidyverse)
 library(haven)
 library(survey)
